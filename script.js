@@ -1,50 +1,48 @@
-const studentForm=document.getElementById('studentForm');
-const studentlist=document.getElementById('studentlist');
-const errorDiv=document.getElementById('error');
-const students=[];
+const studentform = document.getElementById('studentform');
+const studentlist = document.getElementById('studentlist');
+const errordiv = document.getElementById('error');
+const students = [];
 
-studentForm.addEventListener('submit',function(event)
-{
-    Event.preventDefault();
-    const studentid=document.getElementById('studentid').value;
-    const studentname=document.getElementById('studentname').value;
-    const studentage=document.getElementById('studentage').value;
-try{
-    addstudent(studentid,studentname,studentage);
-    displaystudents();
-    errorDiv.textContent='';
-}
-catch(error){
-    errorDiv.textcontent=error.message;
-}
-studentForm.requestFullscreen();
+studentform.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const studentid = document.getElementById('studentid').value;
+    const studentname = document.getElementById('studentname').value;
+    const studentage = document.getElementById('studentage').value;
+
+    try {
+        addstudent(studentid, studentname, studentage);
+        displaystudents();
+        errordiv.textContent = '';
+    } catch (error) {
+        errordiv.textContent = error.message;
+    }
 });
 
-function addstudent(id,name,age){
-    if(!id||!name||!age)
-    {
-        throw new Error('All fields are required.');
+function addstudent(id, name, age) {
+    if (!id || !name || !age) {
+        throw new Error('All fields are required');
     }
-    if(isNaN(age)||age<=0)
-    {
-        throw new Error('Age must be a positive number')
+    if (isNaN(age) || age <= 0) {
+        throw new Error('Age must be a positive number');
     }
-    const studentexists=student.some(student=>studentid===id);
-if(studentExists){
-    throw new Error('Student ID already exists')
+    const studentExists = students.some(student => student.id === id);
+
+    if (studentExists) {
+        throw new Error('Student ID already exists');
+    }
+    const student = {
+        id,
+        name,
+        age: parseInt(age, 10)
+    };
+    students.push(student);
 }
-const student={
-    id,
-    name,
-    age:parseInt(age,10)
-};
-students.push(student);
-}
-function displaystudents(){
-    studentlist.innerHTML='';
-    students.forEach(student=>{
-        constli=document.createElement('li');
-        li.textContent='ID:${student.id},Name:${student.name},Age=${student.age}';
-        studentList.appendChild(li);
+
+function displaystudents() {
+    studentlist.innerHTML = '';
+    students.forEach(student => {
+        const li = document.createElement('li');
+        li.textContent = `ID: ${student.id}, Name: ${student.name}, Age: ${student.age}`;
+        studentlist.appendChild(li);
     });
 }
